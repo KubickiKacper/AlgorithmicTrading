@@ -1,0 +1,19 @@
+.chart-container {
+    width: 90%; /* Dostosuj szerokość */
+    max-width: 900px; /* Maksymalna szerokość */
+    margin: 20px auto; /* Wycentrowanie */
+    padding: 20px;
+    background-color: #1e1e1e;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+}
+
+
+.apexcharts-tooltip {
+    background-color: #333 !important; /* Ciemniejsze tooltipy */
+    color: #fff !important;
+}
+
+.apexcharts-canvas {
+    max-width: 100%;
+}
