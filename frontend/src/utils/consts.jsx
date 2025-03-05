@@ -12,7 +12,7 @@ export const CHART_OPTIONS = {
       type: 'x',
       autoScaleYaxis: true,
     }
-    },
+  },
   annotations: {
     xaxis: [
       {
@@ -36,5 +36,14 @@ export const CHART_OPTIONS = {
   },
   grid: {
     borderColor: "#444"
-  }
+  },
+  stroke: {
+    curve: 'straight',
+    width: [2, 1],
+    colors: ['#3399ff'],
+  },
+  fill: {
+    type: 'solid',
+    opacity: [1, 0.8],
+  },
 }

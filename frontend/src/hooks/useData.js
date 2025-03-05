@@ -1,29 +1,29 @@
-import {useState, useEffect} from "react";
-import axios from "axios";
+import {useState, useEffect} from "react"
+import axios from "axios"
 
 function useData(url, requestData) {
-  const [data, setData] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [data, setData] = useState(null)
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(null)
 
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        setLoading(true);  // ustawienie statusu ładowania
-        const response = await axios.post(url, requestData);
-        setData(response.data);  // zapisanie danych do stanu
-        setLoading(false);  // zakończenie ładowania
+        setLoading(true)
+        const response = await axios.post(url, requestData)
+        setData(response.data)
+        setLoading(false)
       } catch (err) {
-        setError(err);  // zapisanie błędu
-        setLoading(false);  // zakończenie ładowania
+        setError(err)
+        setLoading(false)
       }
-    };
+    }
 
-    fetchData();
-  }, [url]);  // uruchamianie efektu za każdym razem, gdy zmienia się URL lub requestData
+    fetchData()
+  }, [url, requestData])
 
-  return {data, loading, error};
+  return {data, loading, error}
 }
 
-export default useData;
+export default useData

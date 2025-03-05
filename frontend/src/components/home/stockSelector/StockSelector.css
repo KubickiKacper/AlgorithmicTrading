@@ -1,0 +1,61 @@
+.stock-selector {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    margin: auto;
+    margin-bottom: 70px;
+    background-color: #1e1e1e;
+    padding: 20px;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+    font-family: Arial;
+}
+
+.stock-selector label {
+    font-size: 1rem;
+    color: white;
+    display: block;
+    text-align: left;
+    margin-bottom: 5px;
+}
+
+.stock-selector select,
+.stock-selector input,
+.stock-selector button {
+    padding: 8px 16px;
+    font-size: 1rem;
+    border-radius: 30px;
+    border: 2px solid #444;
+    background-color: #333;
+    color: white;
+    transition: all 0.3s ease;
+    margin-left: 5px;
+}
+
+.stock-selector button {
+    background-color: #3498db;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.stock-selector select:hover,
+.stock-selector input:hover,
+.stock-selector button:hover {
+    background-color: #444;
+    border-color: #2980b9;
+}
+
+.stock-selector button:hover {
+    background-color: #2980b9;
+}
+
+.stock-selector select:focus,
+.stock-selector input:focus,
+.stock-selector button:focus {
+    outline: none;
+    border-color: #2980b9;
+    box-shadow: 0 0 5px rgba(41, 128, 185, 0.7);
+}
