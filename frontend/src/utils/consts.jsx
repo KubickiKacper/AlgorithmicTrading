@@ -32,7 +32,10 @@ export const CHART_OPTIONS = {
   },
   yaxis: {
     tooltip: {enabled: true},
-    labels: {style: {colors: "#ccc"}},
+    labels: {
+      style: {colors: "#ccc"},
+      formatter: (value) => value.toFixed(2),
+    },
   },
   grid: {
     borderColor: "#444"
