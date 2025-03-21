@@ -7,19 +7,21 @@ function CandlestickChart({requestData}) {
   const ENDPOINT = "/market/"
   const {data: chartData, loading, error} = useData(apiUrl + ENDPOINT, requestData)
 
-  const lineSeries = {
-    name: 'Line',
-    type: 'line',
-    data: chartData?.series?.[0]?.data?.map(item => ({
+  const lineSeriesData = chartData?.series?.[0]?.data
+    ?.map(item => ({
       x: new Date(item.x),
-      y: item.y[3],
-    })) || [],
-  }
+      y: item.line_value,
+    })) || []
 
-  const series = chartData?.series ? [
-    lineSeries,
-    ...chartData.series,
-  ] : []
+  const series = chartData?.series ? [...chartData.series] : []
+
+  if (lineSeriesData.length > 0) {
+    series.unshift({
+      name: "Line",
+      type: "line",
+      data: lineSeriesData,
+    })
+  }
 
   return (
     <div className="chart-container">
@@ -36,11 +38,9 @@ function CandlestickChart({requestData}) {
         </div>
       )}
 
-      {
-        !loading && !error && chartData?.series && (
-          <Chart options={CHART_OPTIONS} series={series} type="candlestick" height={350}/>
-        )
-      }
+      {!loading && !error && chartData?.series && (
+        <Chart options={CHART_OPTIONS} series={series} type="candlestick" height={350}/>
+      )}
     </div>
   )
 }

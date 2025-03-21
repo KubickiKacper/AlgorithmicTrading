@@ -2,7 +2,6 @@ from flask import request
 from flask_restx import Namespace, Resource, fields
 from http import HTTPStatus
 from app.trading.market import get_market_data
-import json
 
 ns = Namespace("market", description="Market Data API")
 
@@ -26,19 +25,21 @@ class Market(Resource):
 
         market_data = get_market_data(ticker, start_date, end_date, interval)
 
-        response_data = {
+        line_values = [float(row["Close"]) * 0.5 for _, row in market_data.iterrows()]
+
+        response_data = [{
+            "x": row.name.strftime('%Y-%m-%d'),
+            "y": row[["Open", "High", "Low", "Close"]].tolist(),
+            "line_value": line_value
+        } for (_, row), line_value in zip(market_data.iterrows(), line_values)]
+
+        response = {
             "series": [
                 {
                     "name": ticker,
-                    "data": [
-                        {
-                            "x": row.name.strftime('%Y-%m-%d'),
-                            "y": row[["Open", "High", "Low", "Close"]].tolist()
-                        }
-                        for _, row in market_data.iterrows()
-                    ],
+                    "data": response_data,
                 }
             ]
         }
 
-        return response_data, HTTPStatus.OK
+        return response, HTTPStatus.OK
