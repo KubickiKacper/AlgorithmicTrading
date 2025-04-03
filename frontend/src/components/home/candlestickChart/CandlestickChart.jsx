@@ -23,6 +23,30 @@ function CandlestickChart({requestData}) {
     })
   }
 
+  const annotations = chartData?.signals?.map(signal => {
+    const color = signal.text === 'BUY' ? '#00E396' : '#FF4560'
+
+    return {
+      x: new Date(signal.x).getTime(),
+      borderColor: color,
+      label: {
+        borderColor: color,
+        style: {
+          fontSize: '12px',
+          color: '#fff',
+          background: color
+        },
+        orientation: 'horizontal',
+        text: signal.text,
+      }
+    }
+  }) || []
+
+  const chartOptions = {
+    ...CHART_OPTIONS,
+    annotations: {xaxis: annotations}
+  }
+
   return (
     <div className="chart-container">
       {loading && (
@@ -39,10 +63,11 @@ function CandlestickChart({requestData}) {
       )}
 
       {!loading && !error && chartData?.series && (
-        <Chart options={CHART_OPTIONS} series={series} type="candlestick" height={350}/>
+        <Chart options={chartOptions} series={series} type="candlestick" height={350}/>
       )}
     </div>
   )
 }
+
 
 export default CandlestickChart

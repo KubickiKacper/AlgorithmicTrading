@@ -13,19 +13,6 @@ export const CHART_OPTIONS = {
       autoScaleYaxis: true,
     }
   },
-  annotations: {
-    xaxis: [
-      {
-        borderColor: "#FF4560",
-        label: {
-          style: {
-            color: "#fff",
-            background: "#FF4560",
-          },
-        },
-      },
-    ],
-  },
   xaxis: {
     type: "datetime",
     labels: {style: {colors: "#ccc"}}

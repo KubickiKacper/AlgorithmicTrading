@@ -13,7 +13,7 @@ function App() {
         </div>
       </div>
     </Router>
-  );
+  )
 }
 
-export default App;
+export default App
