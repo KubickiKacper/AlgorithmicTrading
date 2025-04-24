@@ -1,4 +1,4 @@
-def moving_average_crossover(market_data):
+def moving_average_crossover(market_data, first_day_buy):
     short_window = 10
     long_window = 50
 
@@ -11,6 +11,8 @@ def moving_average_crossover(market_data):
     }
 
     signals = []
+    if first_day_buy:
+        signals.append({"x": market_data.index[0].strftime('%Y-%m-%d'), "text": "BUY"})
     for i in range(1, len(market_data)):
         current_short = market_data['Short_MA'].iloc[i]
         current_long = market_data['Long_MA'].iloc[i]
@@ -18,6 +20,8 @@ def moving_average_crossover(market_data):
         prev_long = market_data['Long_MA'].iloc[i - 1]
 
         if prev_short <= prev_long and current_short > current_long:
+            if first_day_buy and len(signals) == 1:
+                continue
             signals.append({"x": market_data.index[i].strftime('%Y-%m-%d'), "text": "BUY"})
         elif prev_short >= prev_long and current_short < current_long:
             signals.append({"x": market_data.index[i].strftime('%Y-%m-%d'), "text": "SELL"})

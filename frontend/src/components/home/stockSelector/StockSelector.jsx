@@ -35,11 +35,19 @@ function StockSelector({onSubmit}) {
 
       <label>
         Start date:
-        <input type="date" value={startDate} onChange={(e) => setStartDate(e.target.value)}/>
+        <input
+          type="date"
+          value={startDate}
+          onChange={(e) => setStartDate(e.target.value)}
+        />
       </label>
       <label>
         End date:
-        <input type="date" value={endDate} onChange={(e) => setEndDate(e.target.value)}/>
+        <input
+          type="date"
+          value={endDate}
+          onChange={(e) => setEndDate(e.target.value)}
+        />
       </label>
 
       <button type="submit">Load data</button>

@@ -1,7 +1,7 @@
 from flask import request
 from flask_restx import Namespace, Resource, fields
 from http import HTTPStatus
-from app.trading.market import get_market_data
+from app.trading.market import get_market_data, calculate_profit, calculate_algorithm_profit
 from app.trading.algorithms.moving_average_crossover import moving_average_crossover
 
 ns = Namespace("market", description="Market Data API")
@@ -11,6 +11,7 @@ market_request_model = ns.model("MarketRequest", {
     "start_date": fields.String(required=True, example="2024-02-01"),
     "end_date": fields.String(required=True, example="2024-02-28"),
     "interval": fields.String(required=True, example="1d"),
+    "first_day_buy": fields.Boolean(required=True, example=False)
 })
 
 
@@ -23,9 +24,12 @@ class Market(Resource):
         start_date = data.get("start_date")
         end_date = data.get("end_date")
         interval = data.get("interval")
+        first_day_buy = data.get("first_day_buy")
 
         market_data = get_market_data(ticker, start_date, end_date, interval)
-        line_values_dict, signals = moving_average_crossover(market_data)
+        line_values_dict, signals = moving_average_crossover(market_data, first_day_buy=first_day_buy)
+        profit = calculate_profit(market_data)
+        algorithm_profit = calculate_algorithm_profit(market_data, signals)
 
         response_data = []
         for i, (index, row) in enumerate(market_data.iterrows()):
@@ -44,7 +48,9 @@ class Market(Resource):
                     "data": response_data,
                 }
             ],
-            "signals": signals
+            "signals": signals,
+            "profit_percentage": profit,
+            "algorithm_profit_percentage": algorithm_profit
         }
 
         return response, HTTPStatus.OK

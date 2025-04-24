@@ -1,11 +1,23 @@
+import {useEffect} from "react"
 import "./CandlestickChart.css"
 import Chart from "react-apexcharts"
 import {apiUrl, CHART_OPTIONS} from "@utils/consts"
 import useData from "@hooks/useData"
 
-function CandlestickChart({requestData}) {
+function CandlestickChart({requestData, onProfitDataUpdate}) {
   const ENDPOINT = "/market/"
   const {data: chartData, loading, error} = useData(apiUrl + ENDPOINT, requestData)
+
+  const profitData = {
+    profit_percentage: chartData?.profit_percentage || 0,
+    algorithm_profit_percentage: chartData?.algorithm_profit_percentage || 0,
+  }
+
+  useEffect(() => {
+    if (chartData && onProfitDataUpdate) {
+      onProfitDataUpdate(profitData)
+    }
+  }, [chartData, onProfitDataUpdate])
 
   const candlestickData = chartData?.series?.[0]?.data || []
 
@@ -25,9 +37,16 @@ function CandlestickChart({requestData}) {
     }
   })
 
-  const series = chartData?.series ? [...chartData.series] : []
-  if (lineSeries.length > 0) {
-    series.unshift(...lineSeries)
+  const series = []
+  if (chartData?.series) {
+    const candlestickSeries = {
+      ...chartData.series[0],
+      type: "candlestick",
+    }
+    series.push(candlestickSeries)
+    if (lineSeries.length > 0) {
+      series.push(...lineSeries)
+    }
   }
 
   const annotations = chartData?.signals?.map(signal => {
@@ -40,16 +59,15 @@ function CandlestickChart({requestData}) {
         style: {
           fontSize: '12px',
           color: '#fff',
-          background: color
+          background: color,
         },
         orientation: 'horizontal',
         text: signal.text,
-      }
+      },
     }
   }) || []
 
   const seriesColors = series.map(s => {
-    console.log(s.type)
     if (s.type === "line") {
       if (s.name === "SHORT MA") return '#3399ff'
       if (s.name === "LONG MA") return '#00e396'
@@ -69,7 +87,7 @@ function CandlestickChart({requestData}) {
     fill: {
       ...CHART_OPTIONS.fill,
       opacity: series.map(s => (s.type === "line" ? 1 : 0.8)),
-    }
+    },
   }
 
   return (
@@ -93,6 +111,5 @@ function CandlestickChart({requestData}) {
     </div>
   )
 }
-
 
 export default CandlestickChart
