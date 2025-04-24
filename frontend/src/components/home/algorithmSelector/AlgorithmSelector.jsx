@@ -17,7 +17,8 @@ function AlgorithmSelector({onSubmit, profitData}) {
       <label className="algorithm-selector-label">
         Algorithm:
         <select value={algorithm} onChange={(e) => setAlgorithm(e.target.value)}>
-          <option value="moving_average">Moving Average</option>
+          <option value="none">None</option>
+          <option value="MAC">Moving Average</option>
           <option value="buy_and_hold">Buy and Hold</option>
           <option value="rsi_based">RSI-Based</option>
         </select>
