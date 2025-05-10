@@ -21,6 +21,7 @@ function AlgorithmSelector({onSubmit, profitData}) {
           <option value="MAC">Moving Average</option>
           <option value="buy_and_hold">Buy and Hold</option>
           <option value="rsi_based">RSI-Based</option>
+          <option value="bollinger_bands">Bollinger Bands</option>
         </select>
       </label>
 

@@ -1,7 +1,7 @@
 import {useEffect} from "react"
 import "./CandlestickChart.css"
 import Chart from "react-apexcharts"
-import {apiUrl, CHART_OPTIONS} from "@utils/consts"
+import {apiUrl, CHART_OPTIONS, RSI_CHART_OPTIONS} from "@utils/consts"
 import useData from "@hooks/useData"
 
 function CandlestickChart({requestData, onProfitDataUpdate}) {
@@ -12,6 +12,9 @@ function CandlestickChart({requestData, onProfitDataUpdate}) {
     profit_percentage: chartData?.profit_percentage || 0,
     algorithm_profit_percentage: chartData?.algorithm_profit_percentage || 0,
   }
+
+  const rsiSeries = chartData?.rsi_series
+  console.log(rsiSeries)
 
   useEffect(() => {
     if (chartData && onProfitDataUpdate) {
@@ -106,7 +109,11 @@ function CandlestickChart({requestData, onProfitDataUpdate}) {
       )}
 
       {!loading && !error && chartData?.series && (
-        <Chart options={chartOptions} series={series} type="candlestick" height={350}/>
+        <>
+          <Chart options={chartOptions} series={series} type="candlestick" height={350}/>
+          {rsiSeries && (
+            <Chart options={RSI_CHART_OPTIONS} series={rsiSeries} type="line" height={200}/>)}
+        </>
       )}
     </div>
   )
