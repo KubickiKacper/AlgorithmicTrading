@@ -4,9 +4,11 @@ export const LINE_COLORS = {
   "SHORT MA": '#3399ff',
   "LONG MA": '#00e396',
   "RSI": '#FF9900',
+  "MIDDLE_BAND": '#cccccc',
+  "UPPER_BAND": '#FF4560',
+  "LOWER_BAND": '#00E396',
   "DEFAULT": '#3399ff',
 }
-
 
 export const CHART_OPTIONS = {
   chart: {
